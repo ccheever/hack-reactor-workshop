@@ -63,17 +63,18 @@ class BoardButton extends React.Component {
       >
         <TouchableHighlight
           onPress={() => {
-            console.log(this);
-            console.log(this._playbackInstance);
-            /* this.playAsync(); */
+            this.playAsync();
           }}
         >
           <Expo.Video
             source={this.props.source}
-            ref="thaVideo"
+            ref={video => {
+              this._playbackInstance = video;
+              /* console.log("video=", video); */
+            }}
             style={{ width: this.props.width, height: this.props.width }}
             isLooping={false}
-            shouldPlay={false}
+            shouldPlay={true}
             resizeMode="cover"
             volume={1.0}
             rate={1.0}
