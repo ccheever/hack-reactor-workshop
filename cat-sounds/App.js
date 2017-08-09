@@ -8,6 +8,8 @@ const { AppLoading, Asset, Audio, Font, Video } = Expo;
 const GREEN = "#477009";
 const YELLOW = "#FCD602";
 
+const BUTTON_SIZE = 160;
+
 export default class App extends React.Component {
   state = {
     isReady: false
@@ -26,10 +28,20 @@ export default class App extends React.Component {
   }
 
   async _cacheResourcesAsync() {
-    await Font.loadAsync({
-      // cooperBlack: require("./assets/fonts/caslonia.ttf")
-      cooperBlack: require("./assets/fonts/CooperBlackRegular.ttf")
-    });
+    await Promise.all([
+      Font.loadAsync({
+        // cooperBlack: require("./assets/fonts/caslonia.ttf")
+        cooperBlack: require("./assets/fonts/CooperBlackRegular.ttf")
+      }),
+      Asset.fromModule(require('./assets/clips/1.mp4')),
+      Asset.fromModule(require('./assets/clips/2.mp4')),
+      Asset.fromModule(require('./assets/clips/3.mp4')),
+      Asset.fromModule(require('./assets/clips/4.mp4')),
+      Asset.fromModule(require('./assets/clips/5.mp4')),
+      Asset.fromModule(require('./assets/clips/6.mp4')),
+      Asset.fromModule(require('./assets/clips/8.mp4')),
+      Asset.fromModule(require('./assets/clips/9.mp4')),
+    ]);
 
     this.setState({ isReady: true });
   }
@@ -49,7 +61,7 @@ class CatSoundsApp extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <Expo.Video
+        <Expo.Video
           source={require("./assets/clips/1.mp4")}
           rate={1.0}
           volume={1.0}
@@ -58,8 +70,8 @@ class CatSoundsApp extends React.Component {
           shouldPlay
           isLooping={false}
           style={{ width: 300, height: 300 }}
+          ref={() => { console.log("Ref called"); }}
         />
- */}
         <Text
           style={{
             fontFamily: "cooperBlack",
@@ -71,22 +83,20 @@ class CatSoundsApp extends React.Component {
         </Text>
 
         <BoardButton
-          source={require("./assets/clips/2.mp4")}
-          height={200}
-          width={200}
+          source={require("./assets/clips/1.mp4")}
+          size={BUTTON_SIZE}
         />
 
         <BoardButton
           source={require("./assets/clips/2.mp4")}
-          height={200}
-          width={200}
+          size={BUTTON_SIZE}
         />
 
         <BoardButton
-          source={require("./assets/clips/2.mp4")}
-          height={200}
-          width={200}
+          source={require("./assets/clips/3.mp4")}
+          size={BUTTON_SIZE}
         />
+
       </View>
     );
   }
@@ -98,39 +108,53 @@ class BoardButton extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("Good morning!");
+  }
 
   async playAsync() {
-    // console.log("this=", "" + this);
-    window._BoardButton = this;
-    console.log(this);
-    console.log("_playbackInstance=", this._playbackInstance);
     await this._playbackInstance.playFromPositionAsync(0);
   }
 
+  async resestPositionAsync() {
+    await this._playbackInstance.stopAsync();
+    await this._playbackInstance.setPositionAsync(0);
+  }
+
   render() {
+    console.log("render  being called");
     return (
       <View
-        style={{ borderColor: "red", borderWidth: 5, borderStyle: "solid" }}
+        style={{
+          borderColor: "red", borderWidth: 0, borderStyle: "solid",
+          margin: 10,
+        }}
       >
-        <TouchableHighlight
-          onPress={() => {
-            this.playAsync();
-          }}
-        >
-          <Expo.Video
-            source={this.props.source}
-            ref={video => {
-              this._playbackInstance = video;
-              /* console.log("video=", video); */
-            }}
-            style={{ width: this.props.width, height: this.props.width }}
-            isLooping={false}
-            shouldPlay={true}
-            resizeMode="cover"
-            volume={1.0}
-            rate={1.0}
-          />
+        <TouchableHighlight onPress={() => {
+          console.log("Pressed");
+          this.playAsync();
+        }}>
+          <View>
+            <Expo.Video
+              source={this.props.source}
+              callback={(playbackStatus) => {
+                if (playbackStatus.didJustFinish) {
+                  console.log("finished");
+                  this.resestPositionAsync();
+                }
+              }}
+              ref={(component) => {
+                this._playbackInstance = component;
+                console.log("ref called on ", '' + component);
+              }}
+              style={{ width: this.props.width || this.props.size || 100, height: this.props.width || this.props.size || 100, }}
+              isLooping={false}
+              shouldPlay={true}
+              resizeMode="cover"
+              volume={1.0}
+              rate={1.0}
+            />
+          </View>
         </TouchableHighlight>
       </View>
     );
