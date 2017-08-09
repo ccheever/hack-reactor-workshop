@@ -3,9 +3,36 @@ import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 import Expo from "expo";
 
-const { Audio, Video } = Expo;
+const { AppLoading, Asset, Audio, Font, Video } = Expo;
 
 export default class App extends React.Component {
+  state = {
+    isReady: false
+  };
+
+  componentWillMount() {
+    this._cacheResourcesAsync();
+  }
+
+  render() {
+    if (!this.state.isReady) {
+      return <AppLoading />;
+    }
+
+    return <CatSoundsApp />;
+  }
+
+  async _cacheResourcesAsync() {
+    await Font.loadAsync({
+      // caslonia: require("./assets/fonts/caslonia.ttf")
+      cooperBlack: require("./assets/fonts/CooperBlackRegular.ttf")
+    });
+
+    this.setState({ isReady: true });
+  }
+}
+
+class CatSoundsApp extends React.Component {
   componentDidMount() {
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -30,6 +57,28 @@ export default class App extends React.Component {
           style={{ width: 300, height: 300 }}
         />
  */}
+        <Text
+          style={{
+            fontFamily: "cooperBlack",
+            fontSize: 42,
+            color: "#333333"
+          }}
+        >
+          Cat Sounds
+        </Text>
+
+        <BoardButton
+          source={require("./assets/clips/2.mp4")}
+          height={200}
+          width={200}
+        />
+
+        <BoardButton
+          source={require("./assets/clips/2.mp4")}
+          height={200}
+          width={200}
+        />
+
         <BoardButton
           source={require("./assets/clips/2.mp4")}
           height={200}
