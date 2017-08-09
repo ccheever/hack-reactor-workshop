@@ -8,9 +8,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icons/milo1.jpg",
+    "icon": "./assets/icons/mylo.png",
     "loading": {
-      "icon": "./assets/icons/milo1.jpg",
+      "icon": "./assets/icons/mylo.png",
       "hideExponentText": false
     },
     "packagerOpts": {
