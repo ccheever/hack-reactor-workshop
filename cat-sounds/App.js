@@ -5,6 +5,9 @@ import Expo from "expo";
 
 const { AppLoading, Asset, Audio, Font, Video } = Expo;
 
+const GREEN = "#477009";
+const YELLOW = "#FCD602";
+
 export default class App extends React.Component {
   state = {
     isReady: false
@@ -24,7 +27,7 @@ export default class App extends React.Component {
 
   async _cacheResourcesAsync() {
     await Font.loadAsync({
-      // caslonia: require("./assets/fonts/caslonia.ttf")
+      // cooperBlack: require("./assets/fonts/caslonia.ttf")
       cooperBlack: require("./assets/fonts/CooperBlackRegular.ttf")
     });
 
@@ -61,7 +64,7 @@ class CatSoundsApp extends React.Component {
           style={{
             fontFamily: "cooperBlack",
             fontSize: 42,
-            color: "#333333"
+            color: "white"
           }}
         >
           Cat Sounds
@@ -137,7 +140,7 @@ class BoardButton extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: GREEN,
     alignItems: "center",
     justifyContent: "center"
   }
