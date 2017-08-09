@@ -8,7 +8,7 @@ const { AppLoading, Asset, Audio, Font, Video } = Expo;
 const GREEN = "#477009";
 const YELLOW = "#FCD602";
 
-const BUTTON_SIZE = 160;
+const BUTTON_SIZE = 120;
 
 export default class App extends React.Component {
   state = {
@@ -61,41 +61,76 @@ class CatSoundsApp extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Expo.Video
-          source={require("./assets/clips/1.mp4")}
-          rate={1.0}
-          volume={1.0}
-          muted={false}
-          resizeMode="cover"
-          shouldPlay
-          isLooping={false}
-          style={{ width: 300, height: 300 }}
-          ref={() => { console.log("Ref called"); }}
-        />
         <Text
           style={{
             fontFamily: "cooperBlack",
             fontSize: 42,
-            color: "white"
+            color: "white",
+            marginBottom: 10,
           }}
         >
           Cat Sounds
         </Text>
 
-        <BoardButton
-          source={require("./assets/clips/1.mp4")}
-          size={BUTTON_SIZE}
-        />
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <BoardButton
+            source={require("./assets/clips/1.mp4")}
+            size={BUTTON_SIZE}
+          />
 
-        <BoardButton
-          source={require("./assets/clips/2.mp4")}
-          size={BUTTON_SIZE}
-        />
+          <BoardButton
+            source={require("./assets/clips/2.mp4")}
+            size={BUTTON_SIZE}
+          />
 
-        <BoardButton
-          source={require("./assets/clips/3.mp4")}
-          size={BUTTON_SIZE}
-        />
+        </View>
+
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <BoardButton
+            source={require("./assets/clips/3.mp4")}
+            size={BUTTON_SIZE}
+          />
+
+          <BoardButton
+            source={require("./assets/clips/9.mp4")}
+            size={BUTTON_SIZE}
+          />
+
+        </View>
+
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <BoardButton
+            source={require("./assets/clips/5.mp4")}
+            size={BUTTON_SIZE}
+          />
+
+          <BoardButton
+            source={require("./assets/clips/6.mp4")}
+            size={BUTTON_SIZE}
+          />
+
+        </View>
+
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <BoardButton
+            source={require("./assets/clips/7.mp4")}
+            size={BUTTON_SIZE}
+          />
+
+          <BoardButton
+            source={require("./assets/clips/8.mp4")}
+            size={BUTTON_SIZE}
+          />
+
+        </View>
 
       </View>
     );
@@ -122,12 +157,13 @@ class BoardButton extends React.Component {
   }
 
   render() {
-    console.log("render  being called");
     return (
       <View
         style={{
           borderColor: "red", borderWidth: 0, borderStyle: "solid",
-          margin: 10,
+          marginHorizontal: 25,
+          marginVertical: 10,
+
         }}
       >
         <TouchableHighlight onPress={() => {
@@ -139,13 +175,11 @@ class BoardButton extends React.Component {
               source={this.props.source}
               callback={(playbackStatus) => {
                 if (playbackStatus.didJustFinish) {
-                  console.log("finished");
                   this.resestPositionAsync();
                 }
               }}
               ref={(component) => {
                 this._playbackInstance = component;
-                console.log("ref called on ", '' + component);
               }}
               style={{ width: this.props.width || this.props.size || 100, height: this.props.width || this.props.size || 100, }}
               isLooping={false}
