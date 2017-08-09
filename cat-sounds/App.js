@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 import Expo from "expo";
 
@@ -19,7 +19,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Expo.Video
+        {/* <Expo.Video
           source={require("./assets/clips/1.mp4")}
           rate={1.0}
           volume={1.0}
@@ -29,8 +29,56 @@ export default class App extends React.Component {
           isLooping={false}
           style={{ width: 300, height: 300 }}
         />
+ */}
+        <BoardButton
+          source={require("./assets/clips/2.mp4")}
+          height={200}
+          width={200}
+        />
+      </View>
+    );
+  }
+}
 
-        <Text>Open up App.js to start working on your app!</Text>
+class BoardButton extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {};
+  }
+
+  componentDidMount() {}
+
+  async playAsync() {
+    // console.log("this=", "" + this);
+    window._BoardButton = this;
+    console.log(this);
+    console.log("_playbackInstance=", this._playbackInstance);
+    await this._playbackInstance.playFromPositionAsync(0);
+  }
+
+  render() {
+    return (
+      <View
+        style={{ borderColor: "red", borderWidth: 5, borderStyle: "solid" }}
+      >
+        <TouchableHighlight
+          onPress={() => {
+            console.log(this);
+            console.log(this._playbackInstance);
+            /* this.playAsync(); */
+          }}
+        >
+          <Expo.Video
+            source={this.props.source}
+            ref="thaVideo"
+            style={{ width: this.props.width, height: this.props.width }}
+            isLooping={false}
+            shouldPlay={false}
+            resizeMode="cover"
+            volume={1.0}
+            rate={1.0}
+          />
+        </TouchableHighlight>
       </View>
     );
   }
