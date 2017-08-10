@@ -1,7 +1,7 @@
 {
   "name": "cat-sounds",
   "version": "0.0.0",
-  "description": "Hello Expo!",
+  "description": "A video soundboard with a cat from the Internet",
   "author": "ccheever@gmail.com",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
