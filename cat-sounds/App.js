@@ -65,7 +65,7 @@ class CatSoundsApp extends React.Component {
           style={{
             fontFamily: "cooperBlack",
             fontSize: 42,
-            color: "white",
+            color: YELLOW,
             marginBottom: 10,
           }}
         >
@@ -167,7 +167,7 @@ class BoardButton extends React.Component {
         }}
       >
         <TouchableHighlight onPress={() => {
-          console.log("Pressed");
+          //console.log("Pressed");
           this.playAsync();
         }}>
           <View>
